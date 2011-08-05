@@ -1,0 +1,5 @@
+#Sat Jul 16 23:45:06 JST 2011
+eclipse.preferences.version=1
+encoding//assets/sqliteCsvImportTest/encoding/user.csv=SJIS
+encoding//assets/sqliteYamlImportTest/encoding/user.yaml=SJIS
+encoding/<project>=UTF-8
