@@ -53,6 +53,42 @@ public class SQLiteYamlImporterTest extends DatabaseTestCase {
         assertEquals("デモユーザーさん", second.name);
     }
 
+    public void testImportAnotherData() {
+        importData(FileType.Yaml, "sqliteYamlImportTest/normal");
+
+        List<User> icons1 = loadUsers();
+        assertEquals(2, icons1.size());
+
+        User first1 = icons1.get(0);
+        assertEquals(1, first1.id);
+        assertEquals("ussy", first1.name);
+        assertEquals(85.5d, first1.weight);
+        Bitmap image1 = BitmapFactory.decodeByteArray(first1.image, 0, first1.image.length);
+        assertNotNull(image1);
+        assertEquals(1306002629, first1.created);
+
+        User second1 = icons1.get(1);
+        assertEquals(2, second1.id);
+        assertEquals("デモユーザーさん", second1.name);
+
+        importData(FileType.Yaml, "sqliteYamlImportTest/another");
+
+        List<User> icons2 = loadUsers();
+        assertEquals(2, icons2.size());
+
+        User first2 = icons2.get(0);
+        assertEquals(1, first2.id);
+        assertEquals("ussy_ano", first2.name);
+        assertEquals(85.5d, first2.weight);
+        Bitmap image2 = BitmapFactory.decodeByteArray(first2.image, 0, first2.image.length);
+        assertNotNull(image2);
+        assertEquals(1306002629, first2.created);
+
+        User second2 = icons2.get(1);
+        assertEquals(2, second2.id);
+        assertEquals("デモユーザーさん_ano", second2.name);
+    }
+
     public void testImportSJISData() {
         importData(FileType.Yaml, "sqliteYamlImportTest/encoding", "Shift_JIS");
 
@@ -67,6 +103,24 @@ public class SQLiteYamlImporterTest extends DatabaseTestCase {
     public void testImportErrorData() {
         try {
             importData(FileType.Yaml, "sqliteYamlImportTest/error");
+            fail();
+        } catch (ImportException e) {
+            assertTrue("例外が発生すること", true);
+        }
+    }
+
+    public void testImportNullData() {
+        try {
+            importData(FileType.Yaml, null);
+            fail();
+        } catch (ImportException e) {
+            assertTrue("例外が発生すること", true);
+        }
+    }
+    
+    public void testImportEmptyStringData() {
+        try {
+            importData(FileType.Yaml, "");
             fail();
         } catch (ImportException e) {
             assertTrue("例外が発生すること", true);
